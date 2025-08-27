@@ -1,4 +1,4 @@
-import { Component, Input, SimpleChanges, signal, OnChanges, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, input, signal, OnInit, AfterViewInit, OnDestroy, effect, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -6,9 +6,10 @@ import { CommonModule } from '@angular/common';
     imports: [CommonModule],
     templateUrl: './counter.component.html'
 })
-export class CounterComponent implements OnChanges, OnInit, AfterViewInit, OnDestroy {
-  @Input({required: true}) duration = 0;
-  @Input({required: true}) message = '';
+export class CounterComponent implements  OnInit, AfterViewInit, OnDestroy {
+  duration = input.required<number>();
+  doubleDuration = computed(()=> this.duration()*2);
+  message = input.required<string>();
   counter = signal(0);
   counterRef: number | undefined;
 
@@ -18,9 +19,18 @@ export class CounterComponent implements OnChanges, OnInit, AfterViewInit, OnDes
     // una vez
     console.log('constructor');
     console.log('-'.repeat(10));
+    // reemplaza ngOnchanges para la detecciòn de cambios. En este ejemplo si duration cambia; se ejecuta la funciòn doSomething
+    effect(()=>{
+     this.duration();
+     this.doSomething();
+    })
+    effect(()=>{
+      this.message();
+      this.doSomething2();
+     })
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+ /* ngOnChanges(changes: SimpleChanges) {
     // before and during render
     console.log('ngOnChanges');
     console.log('-'.repeat(10));
@@ -29,7 +39,7 @@ export class CounterComponent implements OnChanges, OnInit, AfterViewInit, OnDes
     if (duration && duration.currentValue !== duration.previousValue) {
       this.doSomething();
     }
-  }
+  }*/
 
   ngOnInit() {
     // after render
@@ -59,6 +69,10 @@ export class CounterComponent implements OnChanges, OnInit, AfterViewInit, OnDes
   }
 
   doSomething() {
+    console.log('change duration')
+    // async
+  }
+  doSomething2() {
     console.log('change duration')
     // async
   }
