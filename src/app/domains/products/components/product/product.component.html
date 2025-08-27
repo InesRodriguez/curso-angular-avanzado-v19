@@ -1,5 +1,5 @@
 <div class="group rounded-lg border">
-    <a [routerLink]="['/product', product.id]" class="w-full overflow-hidden rounded-t-lg bg-gray-200">
+    <a [routerLink]="['/product', product.slug]" class="w-full overflow-hidden rounded-t-lg bg-gray-200">
         <div class="relative h-96">
             <img [ngSrc]="product.images[0]" loading="lazy" [alt]="product.title" class="h-full w-full object-cover object-center group-hover:opacity-75" fill="true">
         </div>

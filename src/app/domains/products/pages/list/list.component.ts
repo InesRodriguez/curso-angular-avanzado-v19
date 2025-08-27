@@ -22,6 +22,7 @@ export default class ListComponent implements OnInit, OnChanges {
   private productService = inject(ProductService);
   private categoryService = inject(CategoryService);
   @Input() category_id?: string;
+  @Input() slug?: string;
 
   ngOnInit() {
     this.getCategories();
@@ -36,7 +37,7 @@ export default class ListComponent implements OnInit, OnChanges {
   }
 
   private getProducts() {
-    this.productService.getProducts(this.category_id)
+    this.productService.getProducts({category_id: this.category_id, category_slug: this.slug})
     .subscribe({
       next: (products) => {
         this.products.set(products);
