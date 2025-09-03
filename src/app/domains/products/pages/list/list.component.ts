@@ -1,4 +1,4 @@
-import { Component, Input,inject, signal, OnInit, OnChanges } from '@angular/core';
+import { Component, inject, signal, OnInit, OnChanges, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLinkWithHref } from '@angular/router';
 import { ProductComponent } from '@products/components/product/product.component';
@@ -21,8 +21,8 @@ export default class ListComponent implements OnInit, OnChanges {
   private cartService = inject(CartService);
   private productService = inject(ProductService);
   private categoryService = inject(CategoryService);
-  @Input() category_id?: string;
-  @Input() slug?: string;
+  readonly category_id = input<string>();
+  readonly slug = input<string>();
 
   ngOnInit() {
     this.getCategories();
@@ -37,7 +37,7 @@ export default class ListComponent implements OnInit, OnChanges {
   }
 
   private getProducts() {
-    this.productService.getProducts({category_id: this.category_id, category_slug: this.slug})
+    this.productService.getProducts({category_id: this.category_id(), category_slug: this.slug()})
     .subscribe({
       next: (products) => {
         this.products.set(products);
