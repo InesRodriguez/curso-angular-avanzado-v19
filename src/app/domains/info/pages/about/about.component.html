@@ -13,4 +13,8 @@
     <div>
         <app-wave-audio audioUrl="assets/audio.mp3" />
     </div>
+    <p>withInit:{{$withInit()}}</p>
+    <button class="bg-blue-500 text-white px-4 py-2 rounded-md" type="button" (click)="emitWithinInit()">Emit within init</button>
+    <p>wihtoutInit:{{$wihtoutInit()}}</p>
+    <button class="bg-blue-500 text-white px-4 py-2 rounded-md" type="button" (click)="emitWihtoutInit()">Emit wihtout init</button>
 </div>
