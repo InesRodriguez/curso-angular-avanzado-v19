@@ -10,28 +10,33 @@ import { FormsModule } from '@angular/forms';
 import { BehaviorSubject, delay, Subject } from 'rxjs';
 
 @Component({
-    selector: 'app-about',
-    imports: [CommonModule, FormsModule, CounterComponent, WaveAudioComponent, HighlightDirective],
-    templateUrl: './about.component.html'
+  selector: 'app-about',
+  imports: [
+    CommonModule,
+    FormsModule,
+    CounterComponent,
+    WaveAudioComponent,
+    HighlightDirective,
+  ],
+  templateUrl: './about.component.html',
 })
 export default class AboutComponent {
   $duration = signal(1000);
   $message = signal('Hola');
 
   obsWithInit$ = new BehaviorSubject<string>('init value');
-  $withInit = toSignal(this.obsWithInit$,{
-    requireSync: true
+  $withInit = toSignal(this.obsWithInit$, {
+    requireSync: true,
   });
 
-  obsWihtoutInit$  = new Subject<string>();
-  $wihtoutInit = toSignal(this.obsWihtoutInit$.pipe(delay(3000)),{
-    initialValue: '-----'
+  obsWihtoutInit$ = new Subject<string>();
+  $wihtoutInit = toSignal(this.obsWihtoutInit$.pipe(delay(3000)), {
+    initialValue: '-----',
   });
-
 
   changeDuration(event: Event) {
     const input = event.target as HTMLInputElement;
-    this.$duration.set(input.valueAsNumber) 
+    this.$duration.set(input.valueAsNumber);
   }
   emitWithinInit() {
     this.obsWithInit$.next('new value');
@@ -39,5 +44,4 @@ export default class AboutComponent {
   emitWihtoutInit() {
     this.obsWihtoutInit$.next('****');
   }
-
 }

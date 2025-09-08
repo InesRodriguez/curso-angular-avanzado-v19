@@ -4,7 +4,7 @@ import { Category } from '@shared/models/category.model';
 import { environment } from '../../../../environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CategoryService {
   private http = inject(HttpClient);
@@ -14,7 +14,7 @@ export class CategoryService {
   }
 
   // fetching data sin usar el http client
-  async getAllPromise():Promise<Category[]> {
+  async getAllPromise(): Promise<Category[]> {
     const response = await fetch(`${environment.apiUrl}/categories`);
     return response.json();
   }

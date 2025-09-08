@@ -7,12 +7,12 @@ import { Product } from '@shared/models/product.model';
 import { CartService } from '@shared/services/cart.service';
 import { ProductService } from '@shared/services/product.service';
 import { CategoryService } from '@shared/services/category.service';
-import {rxResource } from '@angular/core/rxjs-interop';
+import { rxResource } from '@angular/core/rxjs-interop';
 
 @Component({
-    selector: 'app-list',
-    imports: [CommonModule, ProductComponent, RouterLinkWithHref],
-    templateUrl: './list.component.html'
+  selector: 'app-list',
+  imports: [CommonModule, ProductComponent, RouterLinkWithHref],
+  templateUrl: './list.component.html',
 })
 export default class ListComponent {
   private cartService = inject(CartService);
@@ -21,41 +21,38 @@ export default class ListComponent {
   readonly category_id = input<string>();
   readonly slug = input<string>();
 
-  
   categoriesResource = resource({
     loader: () => this.categoryService.getAllPromise(),
-  })
+  });
   productsResource = rxResource({
     request: () => ({
       category_slug: this.slug(),
     }),
-    loader: ({request}) => this.productService.getProducts(request),
-  })
+    loader: ({ request }) => this.productService.getProducts(request),
+  });
 
-
-// Ya no se usa ngOnInit porque se usa rxResource para obtener los datos ylos estados se manejan con el rxResource
+  // Ya no se usa ngOnInit porque se usa rxResource para obtener los datos ylos estados se manejan con el rxResource
   /*ngOnInit() {
     this.getCategories();
   }*/
 
-    // Ya no se usa ngOnChanges porque en la propiedad request de rxResource se observa el cambio de la propiedad slug y se ejecuta el loader para obtener los productos
- /* ngOnChanges() {
+  // Ya no se usa ngOnChanges porque en la propiedad request de rxResource se observa el cambio de la propiedad slug y se ejecuta el loader para obtener los productos
+  /* ngOnChanges() {
   this.getProducts();
   }*/
 
   addToCart(product: Product) {
-    this.cartService.addToCart(product)
+    this.cartService.addToCart(product);
   }
 
-  
-  resetCategories(){
+  resetCategories() {
     this.categoriesResource.set([]);
   }
-  reloadCategories(){
+  reloadCategories() {
     this.categoriesResource.reload();
   }
 
-  reloadProducts(){
+  reloadProducts() {
     this.productsResource.reload();
   }
 

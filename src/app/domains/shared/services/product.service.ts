@@ -4,13 +4,12 @@ import { Product } from '../models/product.model';
 import { environment } from '../../../../environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProductService {
-
   private http = inject(HttpClient);
 
-  getProducts(params: {category_id?: string, category_slug?: string}) {
+  getProducts(params: { category_id?: string; category_slug?: string }) {
     const url = new URL(`${environment.apiUrl}/products`);
     if (params.category_id) {
       url.searchParams.set('categoryId', params.category_id);
@@ -25,7 +24,8 @@ export class ProductService {
     const url = new URL(`${environment.apiUrl}/products/${id}`);
     return this.http.get<Product>(url.toString());
   }
-  getOneBySlug(slug:string){
+  getOneBySlug(slug: string) {
     const url = new URL(`${environment.apiUrl}/products/slug/${slug}`);
-    return this.http.get<Product>(url.toString());  }
+    return this.http.get<Product>(url.toString());
+  }
 }
