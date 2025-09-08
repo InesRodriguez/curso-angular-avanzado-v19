@@ -15,6 +15,9 @@ export class ProductService {
     if (params.category_id) {
       url.searchParams.set('categoryId', params.category_id);
     }
+    if (params.category_slug) {
+      url.searchParams.set('categorySlug', params.category_slug);
+    }
     return this.http.get<Product[]>(url.toString());
   }
 

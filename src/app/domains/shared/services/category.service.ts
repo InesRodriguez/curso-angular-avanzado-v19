@@ -12,4 +12,10 @@ export class CategoryService {
   getAll() {
     return this.http.get<Category[]>(`${environment.apiUrl}/categories`);
   }
+
+  // fetching data sin usar el http client
+  async getAllPromise():Promise<Category[]> {
+    const response = await fetch(`${environment.apiUrl}/categories`);
+    return response.json();
+  }
 }
