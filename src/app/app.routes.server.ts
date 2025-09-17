@@ -17,4 +17,9 @@ export const serverRoutes: ServerRoute[] = [
     path: 'locations',
     renderMode: RenderMode.Client,
   },
+  // Wildcard route for 404 pages
+  {
+    path: '**',
+    renderMode: RenderMode.Server,
+  },
 ];
