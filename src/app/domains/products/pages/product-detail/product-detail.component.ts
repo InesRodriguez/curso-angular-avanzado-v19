@@ -1,26 +1,25 @@
-import {
-  Component,
-  inject,
-  signal,
-  OnInit,
-  input,
-  linkedSignal,
-} from '@angular/core';
+import { Component, inject, input, linkedSignal, effect } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { ProductService } from '@shared/services/product.service';
-import { Product } from '@shared/models/product.model';
 import { CartService } from '@shared/services/cart.service';
+import { MetaTagsService } from '@shared/meta-tags.service';
+import { rxResource } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-product-detail',
   imports: [CommonModule, NgOptimizedImage],
   templateUrl: './product-detail.component.html',
 })
-export default class ProductDetailComponent implements OnInit {
-  readonly slug = input<string>();
-  product = signal<Product | null>(null);
+export default class ProductDetailComponent {
+  readonly slug = input.required<string>();
+  productRs = rxResource({
+    request: () => ({
+      slug: this.slug(),
+    }),
+    loader: ({ request }) => this.productService.getOneBySlug(request.slug),
+  });
   $cover = linkedSignal({
-    source: this.product,
+    source: this.productRs.value,
     computation: (product, previous) => {
       if (product) {
         return product.images[0];
@@ -30,16 +29,15 @@ export default class ProductDetailComponent implements OnInit {
   });
   private productService = inject(ProductService);
   private cartService = inject(CartService);
+  private metaTagsService = inject(MetaTagsService);
 
-  ngOnInit() {
-    const slug = this.slug();
-    if (slug) {
-      this.productService.getOneBySlug(slug).subscribe({
-        next: product => {
-          this.product.set(product);
-        },
-      });
-    }
+  constructor() {
+    effect(() => {
+      const product = this.productRs.value();
+      if (product) {
+        this.metaTagsService.setProductMetaTags(product);
+      }
+    });
   }
 
   changeCover(newImg: string) {
@@ -47,7 +45,7 @@ export default class ProductDetailComponent implements OnInit {
   }
 
   addToCart() {
-    const product = this.product();
+    const product = this.productRs.value();
     if (product) {
       this.cartService.addToCart(product);
     }
