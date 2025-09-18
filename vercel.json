@@ -1,14 +1,24 @@
 {
   "version": 2,
-  "public": true,
-  "name": "store",
-  "devCommand": "node dist/store/server/server.mjs",
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/api" }
-  ],
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist/store/browser",
   "functions": {
     "api/index.js": {
       "includeFiles": "dist/store/**"
     }
-  }
+  },
+  "rewrites": [
+    {
+      "source": "/assets/(.*)",
+      "destination": "/assets/$1"
+    },
+    {
+      "source": "/(.*\\.(js|css|ico|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot))",
+      "destination": "/$1"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/api"
+    }
+  ]
 }
