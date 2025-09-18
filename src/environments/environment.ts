@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
   apiUrl: 'https://api.escuelajs.co/api/v1',
-  domain: 'http://localhost:4200',
+  domain: 'https://ecomerce-angular-19.vercel.app',
 };

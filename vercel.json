@@ -1,0 +1,20 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "dist/store/server/server.mjs",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "dist/store/server/server.mjs"
+    }
+  ],
+  "functions": {
+    "dist/store/server/server.mjs": {
+      "maxDuration": 30
+    }
+  }
+}
